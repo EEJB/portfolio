@@ -9,7 +9,7 @@
     font-family: 'Jost';
     font-style: normal;
     font-weight: 400;
-    src: url('./fonts/Jost-Regular.ttf') format('woff');
+    src: url('./fonts/Jost-Regular.ttf') format('truetype');
 }
 
 * {
@@ -28,10 +28,6 @@
     --font-stack: 'Hk Grotesk', sans-serif;
     --line-height-normal: 1.7;
     --line-height-small: 1.2;
-    --black: #000;
-    --pink: #ff3258;
-    --white: #f0e9f2;
-    --white-1: #e5e5e6da;
     --container-max-width: 1180px;
     --container-normal-width: 800px;
     --container-medium-width: 700px;
@@ -41,7 +37,22 @@
     --gutter-normal: 3rem;
     --gutter-small-1: 2.5rem;
     --gutter-small: 2rem;
-    --border-light: 1px solid rgb(36, 35, 35);
+}
+
+:root, [data-theme="dark"] {
+    --bg-color: #000;
+    --text-color: #e5e5e6da;
+    --heading-color: #f0e9f2;
+    --accent-color: #ff3258;
+    --border-color: rgb(36, 35, 35);
+}
+
+[data-theme="light"] {
+    --bg-color: #f0e9f2;
+    --text-color: #333333;
+    --heading-color: #000000;
+    --accent-color: #ff3258;
+    --border-color: rgb(210, 210, 210);
 }
 
 html {
@@ -60,9 +71,9 @@ body {
     font-size: var(--font-size-small);
     font-family: var(--font-stack);
     font-weight: 400;
-    color: var(--white-1);
+    color: var(--text-color);
     line-height: var(--line-height-normal);
-    background: var(--black);
+    background: var(--bg-color);
     overflow-x: hidden;
 }
 
@@ -97,7 +108,7 @@ body {
 
 section {
     padding: var(--gutter-huge) 0;
-    border-bottom: var(--border-light);
+    border-bottom: 1px solid var(--border-color);
 }
 
 img {
@@ -115,7 +126,7 @@ h3 {
     font-family: 'Jost', sans-serif;
     font-weight: 400;
     line-height: var(--line-height-small);
-    color: var(--white);
+    color: var(--heading-color);
 }
 
 .heading-primary {
@@ -140,7 +151,7 @@ h2 {
         display: block;
         height: 2px;
         width: 10rem;
-        background: var(--pink);
+        background: var(--accent-color);
         margin: var(--gutter-small) 0;
     }
 
@@ -178,10 +189,11 @@ p {
 /* --------------------------------------- */
 
 a {
-    color: var(--white);
+    color: var(--heading-color);
     font-weight: 400;
     font-family: 'Jost', sans-serif;
-    transition: all .2s;
+    /* FIX: Targeted transition instead of 'all' */
+    transition: color 0.2s ease, transform 0.2s ease;
     outline: 2px solid transparent;
 }
 
@@ -189,18 +201,14 @@ a {
     border: 0;
 }
 
-button:focus,
-a:focus {
-    outline: 2px solid var(--pink);
-}
-
-body:not(.user-is-tabbing) button:focus,
-body:not(.user-is-tabbing) a:focus {
-    outline: none;
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 4px;
 }
 
 .link:hover {
-    color: var(--pink);
+    color: var(--accent-color);
 }
 
 .btn {
@@ -209,13 +217,9 @@ body:not(.user-is-tabbing) a:focus {
     padding: 1rem 4.2rem;
     text-decoration: none;
     color: inherit;
-    border: 1px solid var(--pink);
+    border: 1px solid var(--accent-color);
     font-weight: 400;
 }
-
-    .btn:focus {
-        outline: none;
-    }
 
     .btn::after {
         content: '';
@@ -224,21 +228,21 @@ body:not(.user-is-tabbing) a:focus {
         top: 0;
         left: 0;
         right: 100%;
-        background: var(--white);
+        background: var(--heading-color);
         height: 100%;
         z-index: -1;
-        transition: all 0.2s cubic-bezier(1, 0.68, 0.16, 0.9);
+        transition: right 0.2s cubic-bezier(1, 0.68, 0.16, 0.9), background-color 0.2s ease;
     }
 
     .btn:hover::after,
-    .btn:focus::after {
+    .btn:focus-visible::after {
         right: 0;
-        background: var(--pink);
+        background: var(--accent-color);
     }
 
 .btn--pink {
-    background: var(--pink);
-    transition: all 0.2s;
+    background: var(--accent-color);
+    transition: background-color 0.2s ease;
 }
 
     .btn--pink::after {
@@ -246,7 +250,7 @@ body:not(.user-is-tabbing) a:focus {
     }
 
     .btn--pink:hover,
-    .btn--pink:focus {
+    .btn--pink:focus-visible {
         background: transparent;
     }
 
@@ -256,7 +260,7 @@ body:not(.user-is-tabbing) a:focus {
     padding: .6rem;
     color: inherit;
     text-decoration: none;
-    border-bottom: 1px solid var(--pink);
+    border-bottom: 1px solid var(--accent-color);
 }
 
     .link__text::after {
@@ -266,21 +270,17 @@ body:not(.user-is-tabbing) a:focus {
         top: 0;
         left: 0;
         right: 100%;
-        background: var(--white);
+        background: var(--heading-color);
         height: 100%;
         z-index: -1;
-        transition: all 0.2s cubic-bezier(1, 0.68, 0.16, 0.9);
+        transition: right 0.2s cubic-bezier(1, 0.68, 0.16, 0.9), background-color 0.2s ease;
     }
 
-    .link__text:focus {
-        outline: none;
+    .link__text:hover::after,
+    .link__text:focus-visible:after {
+        right: 0;
+        background: var(--accent-color);
     }
-
-        .link__text:hover::after,
-        .link__text:focus:after {
-            right: 0;
-            background: var(--pink);
-        }
 
     .link__text span {
         padding-left: 1rem;
@@ -298,12 +298,17 @@ body:not(.user-is-tabbing) a:focus {
     align-items: center;
     height: 5.5rem;
     width: 5.5rem;
-    background-color: var(--pink);
+    background-color: var(--accent-color);
     border-radius: 50%;
     z-index: 10;
     visibility: hidden;
-    transition: all .4s;
+    opacity: 0;
+    transition: visibility 0.4s, opacity 0.4s, background-color 0.3s;
 }
+
+    .back-to-top:hover {
+        background-color: var(--heading-color);
+    }
 
 .back-to-top__image {
     height: 70%;
@@ -364,7 +369,7 @@ body:not(.user-is-tabbing) a:focus {
     padding: 1rem 0;
     text-decoration: none;
     color: inherit;
-    transition: all .2s;
+    transition: color .2s ease;
 }
 
     .nav__link::after {
@@ -375,18 +380,18 @@ body:not(.user-is-tabbing) a:focus {
         right: 100%;
         display: inline-block;
         height: 1rem;
-        background: var(--white);
-        transition: all 0.25s cubic-bezier(1, 0.68, 0.16, 0.9);
+        background: var(--heading-color);
+        transition: right 0.25s cubic-bezier(1, 0.68, 0.16, 0.9), height 0.2s, background-color 0.2s;
     }
 
     .nav__link:hover {
-        color: var(--pink);
+        color: var(--accent-color);
     }
 
         .nav__link:hover::after {
             right: 0;
             height: 2px;
-            background: var(--pink);
+            background: var(--accent-color);
         }
 
 /* --------------------------------------- */
@@ -461,7 +466,6 @@ body:not(.user-is-tabbing) a:focus {
 }
 
 .work__list {
-    /* list-style-type: square; */
     list-style-position: inside;
     margin-bottom: var(--gutter-normal);
 }
@@ -470,7 +474,7 @@ body:not(.user-is-tabbing) a:focus {
     display: block;
     height: 3rem;
     margin-left: var(--gutter-normal);
-    transition: all .3s;
+    transition: transform .3s ease;
 }
 
     .work__code:hover {
@@ -495,34 +499,28 @@ body:not(.user-is-tabbing) a:focus {
 }
 
 /* --------------------------------------- */
-/* ----- About ----- */
+/* ----- About (FIX: Converted to CSS Grid) ----- */
 /* --------------------------------------- */
 
 .about__content {
-    display: flex;
-    flex-direction: row-reverse;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gutter-normal);
     align-items: center;
 }
 
-@media(max-width: 900px) {
-    .about__content {
-        flex-direction: column-reverse;
-        align-items: initial;
-    }
+.about__photo-container {
+    order: 1;
 }
 
-.about__photo-container {
-    margin-bottom: var(--gutter-normal);
+.about__text {
+    order: 2;
 }
 
 @media(min-width: 901px) {
-    .about__text {
-        flex: 0 0 35%;
-    }
-
-    .about__photo-container {
-        flex: 1;
-        margin: 0 var(--gutter-huge) 0 0;
+    .about__content {
+        grid-template-columns: 1fr 1.5fr;
+        gap: var(--gutter-huge);
     }
 }
 

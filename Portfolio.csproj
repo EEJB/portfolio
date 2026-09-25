@@ -75,6 +75,7 @@
     <Content Include="images\ojt1.png" />
     <Content Include="images\ojt2.png" />
     <Content Include="images\pic.jpg" />
+    <Content Include="images\upic.jpg" />
     <Content Include="index.html" />
     <Content Include="script.js" />
     <Content Include="style.css" />
